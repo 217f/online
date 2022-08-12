@@ -227,8 +227,8 @@ L.Control.NotebookbarWriter = L.Control.Notebookbar.extend({
 						{
 							'id': 'downloadas-pdf',
 							'type': 'menubartoolitem',
-							'text': _('PDF Document (.pdf)'),
-							'command': ''
+							'text': _UNO('.uno:ExportToPDF'),
+							'command': '.uno:ExportToPDF'
 						},
 						{
 							'id': 'downloadas-epub',
