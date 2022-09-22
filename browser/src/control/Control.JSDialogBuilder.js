@@ -287,10 +287,22 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			builder.wizard.setCurrentScrollPosition();
 
 		if (objectType == 'toolbutton' && eventType == 'click' && data.indexOf('.uno:') >= 0) {
-			// encode spaces
-			var encodedCommand = data.replace(' ', '%20');
-			builder.map.sendUnoCommand(encodedCommand);
-		} else if (object) {
+            // encode spaces
+            var encodedCommand = data.replace(' ', '%20');
+            if (encodedCommand === '.uno:ExportToPDF') {
+                builder.map.sendUnoCommand(encodedCommand, {
+                    'SynchronMode': {
+                        'type': 'boolean',
+                        'value': false
+                    }
+                });
+            }
+            else if (encodedCommand === '.uno:ExportToPDFSync') {
+                builder.map.sendUnoCommand('.uno:ExportToPDF');
+            }
+            else
+                builder.map.sendUnoCommand(encodedCommand);
+        } else if (object) {
 			// CSV and Macro Security Warning Dialogs are shown before the document load
 			// In that state the document is not really loaded and closing or cancelling it
 			// returns docnotloaded error. Instead of this we can return to the integration

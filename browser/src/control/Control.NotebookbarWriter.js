@@ -283,6 +283,16 @@ L.Control.NotebookbarWriter = L.Control.Notebookbar.extend({
 					'type': 'bigtoolitem',
 					'text': _('Properties'),
 					'command': '.uno:SetDocumentProperties'
+                },
+                {
+                    'type': 'bigtoolitem',
+                    'text': _UNO('.uno:ExportToPDF'),
+                    'command': '.uno:ExportToPDF'
+                },
+                {
+                    'type': 'bigtoolitem',
+                    'text': 'Export as pdf syncronously',
+                    'command': '.uno:ExportToPDFSync'
 				}
 			]
 		});
