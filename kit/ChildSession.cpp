@@ -3074,6 +3074,7 @@ void ChildSession::loKitCallback(const int type, const std::string& payload)
 
     case LOK_CALLBACK_PROFILE_FRAME:
     case LOK_CALLBACK_DOCUMENT_PASSWORD:
+    case LOK_CALLBACK_SC_FOLLOW_JUMP:
     case LOK_CALLBACK_DOCUMENT_PASSWORD_TO_MODIFY:
         // these are not handled here.
         break;
@@ -3130,6 +3131,23 @@ void ChildSession::loKitCallback(const int type, const std::string& payload)
     case LOK_CALLBACK_FONTS_MISSING:
         // TODO
         break;
+    case LOK_CALLBACK_EXPORT_FILE:
+    {
+        Parser parser;
+        Poco::Dynamic::Var var = parser.parse(payload);
+        Object::Ptr object = var.extract<Object::Ptr>();
+
+        auto downloadId = object->get("downloadId");
+        auto id = object->get("id");
+        auto url = object->get("url");
+        // might need to register download id with _docManager
+        // Register download id -> URL mapping in the DocumentBroker
+        std::string docBrokerMessage = "registerdownload: downloadid=" + downloadId + " url=" + url;
+        _docManager->sendFrame(docBrokerMessage.c_str(), docBrokerMessage.length());
+        std::string message = "downloadas: downloadid=" + downloadId + " port=" + std::to_string(ClientPortNumber) + " id=" + id;
+        sendTextFrame(message);
+        break;
+    }
     default:
         LOG_ERR("Unknown callback event (" << lokCallbackTypeToString(type) << "): " << payload);
     }
