@@ -705,6 +705,7 @@ L.Control.MobileWizard = L.Control.extend({
 		var temporaryParent = L.DomUtil.create('div');
 		this._builder.build(temporaryParent, [data.control], false);
 		parent.insertBefore(temporaryParent.firstChild, control.nextSibling);
+		var backupGridSpan = control.style.gridColumn;
 		L.DomUtil.remove(control);
 
 		// when we updated toolbox or menubutton with color picker we need to leave
@@ -725,6 +726,7 @@ L.Control.MobileWizard = L.Control.extend({
 				newControl.style.display = 'none';
 
 			newControl.scrollTop = scrollTop;
+			newControl.style.gridColumn = backupGridSpan;
 		}
 
 		// avoid scrolling when adding new bigger elements to the view
