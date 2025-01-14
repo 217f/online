@@ -30,6 +30,8 @@ not_in_standard_branches() {
     return 0
 }
 
+#xyz
+
 if [ -z "$(type -p gh)" ]; then
     echo "'gh' not found, install it from <https://github.com/cli/cli/blob/trunk/docs/install_linux.md>."
     exit 1
